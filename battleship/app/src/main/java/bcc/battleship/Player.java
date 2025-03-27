@@ -1,40 +1,53 @@
 package bcc.battleship;
 import bcc.battleship.Constants;
 
-public class Player {
-  
-    // Constructor: Initialize the grids and the ships.
-    public Player() {
 
-    }
-    
-    /**
-     * This method is used for testing to set a ship's location.
-     * It sets the ship's row, column, and direction, then adds it to the player's grid.
-     *
-     */
-    
-    public boolean chooseShipLocation(int index, int row, int col, int direction) {
-        
-        return false;
-    }
-   
-    /**
-     * Record a guess from the opponent.
-     * This method checks the player's grid at (row, col). If there is a ship,
-     * it marks a hit and returns true; otherwise, it marks a miss and returns false.
-     *
-     */
-    public boolean recordOpponentGuess(int row, int col) {
-        return false;
-    }
-    
-    
-    public Grid getMyGrid() {
-        return null;
-    }
-    
-    public Grid getOpponentGrid() {
-        return null;
-    }
+public class Player {
+private Ship[] ships;
+private Grid myGrid;
+private Grid opponentGrid;
+
+public Player() {
+ships = new Ship[Constants.SHIP_LENGTHS.length];
+for (int i = 0; i < Constants.SHIP_LENGTHS.length; i++) {
+ships[i] = new Ship(Constants.SHIP_LENGTHS[i]);
+}
+myGrid = new Grid();
+opponentGrid = new Grid();
+}
+
+public boolean chooseShipLocation(int index, Location location, int direction) {
+ships[index].setLocation(location);
+ships[index].setDirection(direction);
+return myGrid.addShip(ships[index]);
+}
+
+public void recordOpponentGuess(Location location) {
+if (myGrid.hasShip(location)) {
+myGrid.markHit(location);
+} else {
+myGrid.markMiss(location);
+}
+}
+
+public Ship[] getShips() {
+return ships;
+}
+
+public Grid getMyGrid() {
+return myGrid;
+}
+
+public Grid getOpponentGrid() {
+return opponentGrid;
+}
+
+@Override
+public String toString() {
+return "Player{" +
+"ships=" + Arrays.toString(ships) +
+", myGrid=" + myGrid +
+", opponentGrid=" + opponentGrid +
+'}';
+}
 }
